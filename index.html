@@ -19,9 +19,35 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* ── PROFILE MODAL ── */
-#profileOverlay{position:fixed;inset:0;background:linear-gradient(135deg,#041f1a 0%,#07402f 55%,#0a5a45 100%);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
-.profile-card{background:#fff;border-radius:28px;padding:2.5rem 2rem;width:100%;max-width:520px;box-shadow:0 32px 80px rgba(0,0,0,.4);}
+/* ── PROFILE MODAL ── MOBILE SCROLL FIXED ── */
+#profileOverlay{
+  position:fixed;inset:0;
+  background-color:#041f1a;
+  background-image:
+    linear-gradient(135deg,rgba(4,31,26,0.82) 0%,rgba(7,64,47,0.78) 55%,rgba(10,90,69,0.80) 100%),
+    url('https://images.pexels.com/photos/6941884/pexels-photo-6941884.jpeg?cs=srgb&dl=pexels-n-voitkevich-6941884.jpg&fm=jpg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:9999;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:1.5rem;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+/* On larger screens, vertically center the card */
+@media(min-height:700px){
+  #profileOverlay{align-items:center;}
+}
+.profile-card{
+  background:#fff;border-radius:28px;padding:2.5rem 2rem;
+  width:100%;max-width:520px;
+  box-shadow:0 32px 80px rgba(0,0,0,.4);
+  flex-shrink:0;              /* KEY FIX: prevents card from being squished */
+  margin:auto 0;              /* centers vertically when overflow is not needed */
+}
 .profile-logo{display:flex;align-items:center;gap:10px;margin-bottom:1.75rem;}
 .profile-logo-icon{width:44px;height:44px;background:var(--teal-dark);border-radius:12px;display:flex;align-items:center;justify-content:center;}
 .profile-logo-icon svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;}
@@ -38,11 +64,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .profile-err.show{display:block;}
 .profile-btn{width:100%;padding:.9rem;background:var(--teal-dark);color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;}
 .profile-btn:hover{background:var(--teal-mid);}.profile-btn:active{transform:scale(.98);}
+/* ── PHOTO UPLOAD ── */
+.photo-upload-wrap{display:flex;align-items:center;gap:1.1rem;margin-bottom:1.25rem;padding:.9rem 1rem;background:#f4fbf8;border:1.5px dashed #a8d5c2;border-radius:14px;}
+.photo-preview-circle{width:64px;height:64px;border-radius:50%;background:var(--teal-light);border:2.5px solid #a8d5c2;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s;}
+.photo-preview-circle:hover{border-color:var(--teal-dark);transform:scale(1.05);}
+.photo-preview-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.photo-upload-right{flex:1;}
+.photo-upload-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px;}
+.photo-upload-hint{font-size:.77rem;color:var(--muted);line-height:1.45;margin-bottom:.55rem;}
+.photo-btns{display:flex;gap:6px;flex-wrap:wrap;}
+.photo-choose-btn{display:inline-flex;align-items:center;gap:5px;padding:.42rem .85rem;background:var(--teal-dark);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .2s;}
+.photo-choose-btn:hover{background:var(--teal-mid);}
+.photo-remove-btn{display:none;padding:.4rem .8rem;background:var(--red-light);color:var(--red-dark);border:1px solid #f5c2c2;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;}
+.photo-remove-btn.show{display:inline-block;}
+#photoFileInput{display:none;}
 
 /* ── PDF MODAL ── */
-#pdfModalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8888;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+#pdfModalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8888;display:none;align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 #pdfModalOverlay.show{display:flex;}
-.pdf-modal{background:#fff;border-radius:24px;padding:2rem;width:100%;max-width:480px;box-shadow:0 24px 64px rgba(0,0,0,.3);animation:slideDown .25s ease;}
+.pdf-modal{background:#fff;border-radius:24px;padding:2rem;width:100%;max-width:480px;box-shadow:0 24px 64px rgba(0,0,0,.3);animation:slideDown .25s ease;flex-shrink:0;margin:auto 0;}
 .pdf-modal-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--teal-dark);margin-bottom:.35rem;}
 .pdf-modal-sub{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem;}
 .pdf-type-tabs{display:flex;gap:6px;margin-bottom:1.5rem;}
@@ -63,7 +103,18 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .pdf-err.show{display:block;}
 
 /* ── HEADER ── */
-header{background:var(--teal-dark);padding:2rem 2rem 3.5rem;position:relative;overflow:hidden;}
+header{
+  background-color:var(--teal-dark);
+  background-image:
+    linear-gradient(135deg,rgba(4,31,26,0.78) 0%,rgba(8,80,65,0.68) 50%,rgba(4,31,26,0.82) 100%),
+    url('https://images.unsplash.com/photo-1628619876503-2db74e724757?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZGlhYmV0ZXN8ZW58MHx8MHx8fDA%3D');
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  padding:2rem 2rem 3.5rem;
+  position:relative;
+  overflow:hidden;
+}
 header::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.04);top:-80px;right:-60px;}
 header::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-40px;left:30%;}
 .header-inner{max-width:980px;margin:0 auto;position:relative;z-index:1;}
@@ -74,7 +125,9 @@ header::after{content:'';position:absolute;width:180px;height:180px;border-radiu
 .site-name{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;font-weight:500;}
 .user-info-badge{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border-radius:12px;padding:.45rem .85rem .45rem .55rem;cursor:pointer;transition:background .2s;}
 .user-info-badge:hover{background:rgba(255,255,255,.2);}
-.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--teal-mid);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;font-weight:700;flex-shrink:0;}
+.user-avatar{width:42px;height:42px;border-radius:50%;background:var(--teal-mid);display:flex;align-items:center;justify-content:center;font-size:.88rem;color:#fff;font-weight:700;flex-shrink:0;overflow:hidden;border:2.5px solid rgba(255,255,255,.4);transition:border-color .2s,transform .2s;}
+.user-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.user-info-badge:hover .user-avatar{border-color:rgba(255,255,255,.85);transform:scale(1.05);}
 .user-name-display{color:#fff;font-size:.88rem;font-weight:500;}
 .user-edit-hint{color:rgba(255,255,255,.55);font-size:.72rem;}
 .header-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.2rem);color:#fff;font-weight:500;line-height:1.15;margin-bottom:.5rem;}
@@ -276,6 +329,21 @@ main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem;}
     <h2 class="profile-title">Welcome! Set up your profile</h2>
     <p class="profile-sub">Your details appear on every downloaded report and personalise your experience.</p>
     <div class="profile-err" id="profileErr"></div>
+    <!-- PHOTO UPLOAD -->
+    <input type="file" id="photoFileInput" accept="image/*" onchange="handlePhotoUpload(event)">
+    <div class="photo-upload-wrap">
+      <div class="photo-preview-circle" id="photoPreviewCircle" onclick="document.getElementById('photoFileInput').click()">
+        <span id="photoPlaceholder">&#128100;</span>
+      </div>
+      <div class="photo-upload-right">
+        <div class="photo-upload-label">Profile Photo (optional)</div>
+        <div class="photo-upload-hint">Your photo appears in the header. Tap circle or button to upload.</div>
+        <div class="photo-btns">
+          <button class="photo-choose-btn" onclick="document.getElementById('photoFileInput').click()">&#128247; Choose Photo</button>
+          <button class="photo-remove-btn" id="photoRemoveBtn" onclick="removePhoto()">&#10005; Remove</button>
+        </div>
+      </div>
+    </div>
     <div class="profile-grid">
       <div class="profile-field full"><label>Full Name *</label><input type="text" id="p-name" placeholder="e.g. Rajesh Kumar" maxlength="80"></div>
       <div class="profile-field"><label>Age *</label><input type="number" id="p-age" placeholder="e.g. 52" min="1" max="120"></div>
@@ -328,7 +396,7 @@ main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem;}
         <span class="site-name">GlucoTrack</span>
       </div>
       <div class="user-info-badge" onclick="editProfile()" title="Edit profile">
-        <div class="user-avatar" id="userAvatar">?</div>
+        <div class="user-avatar" id="userAvatar"><span id="userAvatarInitials">?</span></div>
         <div><div class="user-name-display" id="userNameDisplay">&#8212;</div><div class="user-edit-hint">Edit profile</div></div>
       </div>
     </div>
@@ -464,66 +532,16 @@ main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem;}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><strong>Below 60 mg/dL</strong></td>
-              <td>&#128308; Critical Low</td>
-              <td><span class="unit-chip uc-danger">0 Units</span></td>
-              <td class="ins-action-note">&#9888;&#65039; No insulin &mdash; treat hypoglycemia immediately. Take glucose tablets or juice. Seek help.</td>
-            </tr>
-            <tr>
-              <td><strong>60 &ndash; 99 mg/dL</strong></td>
-              <td>&#128993; Low / Borderline</td>
-              <td><span class="unit-chip uc-blue">0 Units</span></td>
-              <td class="ins-action-note">No insulin needed &mdash; monitor closely, have a small snack.</td>
-            </tr>
-            <tr>
-              <td><strong>100 &ndash; 140 mg/dL</strong></td>
-              <td>&#128994; Normal</td>
-              <td><span class="unit-chip uc-safe">3 Units</span></td>
-              <td class="ins-action-note">Standard maintenance dose before meal.</td>
-            </tr>
-            <tr>
-              <td><strong>141 &ndash; 180 mg/dL</strong></td>
-              <td>&#128993; Slightly High</td>
-              <td><span class="unit-chip uc-mild">4 Units</span></td>
-              <td class="ins-action-note">Mild correction + meal coverage.</td>
-            </tr>
-            <tr>
-              <td><strong>181 &ndash; 220 mg/dL</strong></td>
-              <td>&#128993; High</td>
-              <td><span class="unit-chip uc-warn">6 Units</span></td>
-              <td class="ins-action-note">Correction dose required. Stay hydrated.</td>
-            </tr>
-            <tr>
-              <td><strong>221 &ndash; 260 mg/dL</strong></td>
-              <td>&#128308; Very High</td>
-              <td><span class="unit-chip uc-warn">8 Units</span></td>
-              <td class="ins-action-note">Higher correction needed. Monitor closely.</td>
-            </tr>
-            <tr>
-              <td><strong>261 &ndash; 300 mg/dL</strong></td>
-              <td>&#128308; Very High</td>
-              <td><span class="unit-chip uc-danger">10 Units</span></td>
-              <td class="ins-action-note">Significant correction. Consider calling doctor.</td>
-            </tr>
-            <tr>
-              <td><strong>301 &ndash; 350 mg/dL</strong></td>
-              <td>&#128308; Dangerously High</td>
-              <td><span class="unit-chip uc-danger">12 Units</span></td>
-              <td class="ins-action-note">&#9888;&#65039; Urgent &mdash; consult doctor today.</td>
-            </tr>
-            <tr>
-              <td><strong>351 &ndash; 400 mg/dL</strong></td>
-              <td>&#128308; Dangerously High</td>
-              <td><span class="unit-chip uc-danger">14 Units</span></td>
-              <td class="ins-action-note">&#9888;&#65039; Urgent &mdash; consult doctor immediately.</td>
-            </tr>
-            <tr>
-              <td><strong>Above 400 mg/dL</strong></td>
-              <td>&#128308; Critical</td>
-              <td><span class="unit-chip uc-danger">16 Units</span></td>
-              <td class="ins-action-note">&#9940; EMERGENCY &mdash; seek medical attention NOW.</td>
-            </tr>
+            <tr><td><strong>Below 60 mg/dL</strong></td><td>&#128308; Critical Low</td><td><span class="unit-chip uc-danger">0 Units</span></td><td class="ins-action-note">&#9888;&#65039; No insulin &mdash; treat hypoglycemia immediately. Take glucose tablets or juice. Seek help.</td></tr>
+            <tr><td><strong>60 &ndash; 99 mg/dL</strong></td><td>&#128993; Low / Borderline</td><td><span class="unit-chip uc-blue">0 Units</span></td><td class="ins-action-note">No insulin needed &mdash; monitor closely, have a small snack.</td></tr>
+            <tr><td><strong>100 &ndash; 140 mg/dL</strong></td><td>&#128994; Normal</td><td><span class="unit-chip uc-safe">3 Units</span></td><td class="ins-action-note">Standard maintenance dose before meal.</td></tr>
+            <tr><td><strong>141 &ndash; 180 mg/dL</strong></td><td>&#128993; Slightly High</td><td><span class="unit-chip uc-mild">4 Units</span></td><td class="ins-action-note">Mild correction + meal coverage.</td></tr>
+            <tr><td><strong>181 &ndash; 220 mg/dL</strong></td><td>&#128993; High</td><td><span class="unit-chip uc-warn">6 Units</span></td><td class="ins-action-note">Correction dose required. Stay hydrated.</td></tr>
+            <tr><td><strong>221 &ndash; 260 mg/dL</strong></td><td>&#128308; Very High</td><td><span class="unit-chip uc-warn">8 Units</span></td><td class="ins-action-note">Higher correction needed. Monitor closely.</td></tr>
+            <tr><td><strong>261 &ndash; 300 mg/dL</strong></td><td>&#128308; Very High</td><td><span class="unit-chip uc-danger">10 Units</span></td><td class="ins-action-note">Significant correction. Consider calling doctor.</td></tr>
+            <tr><td><strong>301 &ndash; 350 mg/dL</strong></td><td>&#128308; Dangerously High</td><td><span class="unit-chip uc-danger">12 Units</span></td><td class="ins-action-note">&#9888;&#65039; Urgent &mdash; consult doctor today.</td></tr>
+            <tr><td><strong>351 &ndash; 400 mg/dL</strong></td><td>&#128308; Dangerously High</td><td><span class="unit-chip uc-danger">14 Units</span></td><td class="ins-action-note">&#9888;&#65039; Urgent &mdash; consult doctor immediately.</td></tr>
+            <tr><td><strong>Above 400 mg/dL</strong></td><td>&#128308; Critical</td><td><span class="unit-chip uc-danger">16 Units</span></td><td class="ins-action-note">&#9940; EMERGENCY &mdash; seek medical attention NOW.</td></tr>
           </tbody>
         </table>
       </div>
@@ -553,7 +571,6 @@ function saveRecords(r){try{localStorage.setItem(REC_KEY,JSON.stringify(r));}cat
 function getProfile(){try{return JSON.parse(localStorage.getItem(PROF_KEY))||null;}catch(e){return null;}}
 function saveProfData(p){localStorage.setItem(PROF_KEY,JSON.stringify(p));}
 
-// ── INSULIN CHART DATA ────────────────────────────────────
 const INS=[
   {min:0,  max:59,  units:null, label:'Below 60',     theme:'ins-low-bg', icon:'&#128167;', title:'Critical Low \u2014 NO Insulin', action:'Treat hypoglycemia first. Take glucose tablets or juice immediately.'},
   {min:60, max:99,  units:0,    label:'60\u201399',   theme:'ins-safe',   icon:'&#9989;',   title:'Normal-Low \u2014 No Insulin Needed', action:'Monitor closely. Have a small snack if needed.'},
@@ -589,15 +606,11 @@ function buildInsulinCard(sugar,targetId){
 
 function insStripHtml(sugar){
   const r=getIns(sugar);
-  const cls={
-    'ins-safe':'dri-none','ins-low-bg':'dri-low','ins-mild':'dri-mild',
-    'ins-warn':'dri-warn','ins-danger':'dri-danger'
-  }[r.theme]||'dri-mild';
+  const cls={'ins-safe':'dri-none','ins-low-bg':'dri-low','ins-mild':'dri-mild','ins-warn':'dri-warn','ins-danger':'dri-danger'}[r.theme]||'dri-mild';
   const units=r.units===null?'No insulin (treat low first)':r.units===0?'0 units \u2014 no insulin needed':r.units+' units rapid-acting insulin';
   return '<div class="record-ins-strip '+cls+'">&#128137;&nbsp;<span class="dr-ins-units">'+units+'</span><span style="opacity:.7;font-size:.73rem;">&mdash; '+r.action+'</span></div>';
 }
 
-// ── PROFILE ───────────────────────────────────────────────
 function saveProfile(){
   const name=document.getElementById('p-name').value.trim();
   const age=document.getElementById('p-age').value.trim();
@@ -614,16 +627,66 @@ function showProfileErr(msg){const el=document.getElementById('profileErr');el.t
 function editProfile(){
   const p=getProfile();
   if(p){document.getElementById('p-name').value=p.name||'';document.getElementById('p-age').value=p.age||'';document.getElementById('p-gender').value=p.gender||'';document.getElementById('p-dtype').value=p.dtype||'';document.getElementById('p-clinic').value=p.clinic||'';document.getElementById('p-doctor').value=p.doctor||'';}
+  // restore photo preview in modal
+  const photo=localStorage.getItem(PHOTO_KEY);
+  showPhotoPreview(photo||null);
   document.getElementById('profileErr').classList.remove('show');document.getElementById('profileOverlay').style.display='flex';
+}
+// ── PHOTO HANDLING ──────────────────────────────────────
+const PHOTO_KEY='glucotrack_photo';
+function handlePhotoUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  if(file.size>3*1024*1024){alert('Image too large. Please use a photo under 3MB.');return;}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const data=ev.target.result;
+    localStorage.setItem(PHOTO_KEY,data);
+    showPhotoPreview(data);
+  };
+  reader.readAsDataURL(file);
+}
+function showPhotoPreview(data){
+  const circle=document.getElementById('photoPreviewCircle');
+  const placeholder=document.getElementById('photoPlaceholder');
+  if(data){
+    placeholder.style.display='none';
+    let img=circle.querySelector('img');
+    if(!img){img=document.createElement('img');circle.appendChild(img);}
+    img.src=data;img.style.display='block';
+    document.getElementById('photoRemoveBtn').classList.add('show');
+  }else{
+    placeholder.style.display='';
+    const img=circle.querySelector('img');if(img)img.style.display='none';
+    document.getElementById('photoRemoveBtn').classList.remove('show');
+  }
+}
+function removePhoto(){
+  localStorage.removeItem(PHOTO_KEY);
+  showPhotoPreview(null);
+  document.getElementById('photoFileInput').value='';
+  // reset header avatar
+  const av=document.getElementById('userAvatar');
+  const img=av.querySelector('img');if(img)img.remove();
+  const sp=document.getElementById('userAvatarInitials');if(sp)sp.style.display='';
 }
 function renderUserBadge(p){
   if(!p)return;
   const initials=p.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('userAvatar').textContent=initials;
+  const av=document.getElementById('userAvatar');
+  const sp=document.getElementById('userAvatarInitials');
+  const photo=localStorage.getItem(PHOTO_KEY);
+  if(photo){
+    if(sp)sp.style.display='none';
+    let img=av.querySelector('img');
+    if(!img){img=document.createElement('img');av.appendChild(img);}
+    img.src=photo;img.style.display='block';
+  }else{
+    if(sp){sp.textContent=initials;sp.style.display='';}
+    const img=av.querySelector('img');if(img)img.remove();
+  }
   document.getElementById('userNameDisplay').textContent=p.name+(p.age?', '+p.age:'');
 }
 
-// ── PDF MODAL ─────────────────────────────────────────────
 let pdfType='weekly';
 function openPdfModal(){
   pdfType='weekly';setPdfType('weekly');
@@ -667,13 +730,11 @@ function confirmDownloadPDF(){
 }
 function showPdfErr(msg){const el=document.getElementById('pdfErr');el.textContent=msg;el.classList.add('show');}
 
-// ── HELPERS ───────────────────────────────────────────────
 function getStatus(s){return s<60||s>=200?'danger':(s<70||(s>=141&&s<200)?'warn':'good');}
 function getLabel(s){if(s<60)return'Critical Low';if(s<70)return'Low';if(s<=140)return'Normal';if(s<=199)return'High';if(s<=299)return'Very High';return'Dangerously High';}
 function dateKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function mealCat(m){m=m.toLowerCase();if(m.includes('fast'))return'fasting';if(m.includes('lunch')||m.includes('break'))return'lunch';if(m.includes('dinner')||m.includes('bed'))return'dinner';return'other';}
 
-// ── TABS ──────────────────────────────────────────────────
 function switchTab(n,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -681,7 +742,6 @@ function switchTab(n,btn){
   if(n==='list')renderList();if(n==='calendar')renderCalendar();
 }
 
-// ── ALERT ─────────────────────────────────────────────────
 function showAlert(v){
   const b=document.getElementById('alertBanner'),i=document.getElementById('alertIcon'),
         t=document.getElementById('alertTitle'),m=document.getElementById('alertMsg');
@@ -696,7 +756,6 @@ function showAlert(v){
   b._t=setTimeout(()=>{b.style.transition='opacity .5s';b.style.opacity='0';setTimeout(()=>{b.classList.remove('show');b.style.opacity='1';b.style.transition='';},500);},10000);
 }
 
-// ── SAVE (Add form tab) ───────────────────────────────────
 function saveFromForm(){
   const s=parseInt(document.getElementById('f-sugar').value);
   const el=document.getElementById('f-sugar');
@@ -710,7 +769,6 @@ function saveFromForm(){
   document.getElementById('add-insulin-wrap').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// ── SAVE (Calendar day panel) ─────────────────────────────
 let selDK=null;
 function saveDayReading(){
   const s=parseInt(document.getElementById('dp-sugar').value);
@@ -728,7 +786,6 @@ function deleteReading(id){
   updateStats();renderDayPanel(selDK);renderCalendar();
 }
 
-// ── CALENDAR ──────────────────────────────────────────────
 let calY,calM;
 function changeMonth(d){calM+=d;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}closePanel();renderCalendar();}
 function renderCalendar(){
@@ -772,8 +829,6 @@ function renderDayPanel(dk){
   if(!recs.length){list.innerHTML='<div class="empty-day">No readings for this day. Add one above!</div>';return;}
   list.innerHTML=recs.map(r=>{
     const st=getStatus(r.sugar),lb=getLabel(r.sugar),t=new Date(r.dt).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    const ins=getIns(r.sugar);
-    const doseStr=ins.units===null?'&#8212;':ins.units;
     return'<div class="day-rec">'+
       '<div class="day-rec-main">'+
         '<div class="dr-badge badge-'+st+'"><div class="v">'+r.sugar+'</div><div class="u">mg/dL</div></div>'+
@@ -786,7 +841,6 @@ function renderDayPanel(dk){
   }).join('');
 }
 
-// ── LIST ──────────────────────────────────────────────────
 function renderList(){
   const recs=getRecords();document.getElementById('recordsCount').textContent='('+recs.length+')';
   const list=document.getElementById('recordsList');
@@ -804,7 +858,6 @@ function renderList(){
   }).join('');
 }
 
-// ── STATS ─────────────────────────────────────────────────
 function updateStats(){
   const recs=getRecords();document.getElementById('stat-total').textContent=recs.length;
   if(!recs.length){['stat-avg','stat-high','stat-low'].forEach(id=>document.getElementById(id).textContent='\u2014');return;}
@@ -815,26 +868,20 @@ function updateStats(){
 }
 function clearAll(){if(confirm('Delete ALL records? This cannot be undone.')){saveRecords([]);closePanel();renderList();renderCalendar();updateStats();document.getElementById('add-insulin-wrap').innerHTML='';}}
 
-// ── PDF GENERATION ────────────────────────────────────────
 function generatePDF(filtered,label,fromDate,toDate){
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const now=new Date(),p=getProfile()||{};
-
-  // Header
   doc.setFillColor(8,80,65);doc.rect(0,0,210,50,'F');
   doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(22);doc.text('GlucoTrack',15,18);
   doc.setFontSize(11);doc.setFont('helvetica','normal');doc.text(label,15,28);
   doc.setFontSize(8.5);doc.text('Generated: '+now.toLocaleString('en-IN',{dateStyle:'long',timeStyle:'short'}),15,36);
-
-  // Patient info
   doc.setFillColor(230,247,240);doc.rect(0,50,210,36,'F');
   doc.setTextColor(8,80,65);doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.text('PATIENT INFORMATION',15,58);
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
   doc.text('Name: '+(p.name||'—'),15,65);doc.text('Age: '+(p.age||'—'),80,65);doc.text('Gender: '+(p.gender||'—'),145,65);
   doc.text('Type: '+(p.dtype||'Not specified'),15,72);doc.text('Clinic: '+(p.clinic||'—'),80,72);
   doc.text('Doctor: '+(p.doctor||'—'),15,79);
-
   let sy=92;
   if(filtered.length){
     const lvls=filtered.map(r=>r.sugar);
@@ -842,20 +889,17 @@ function generatePDF(filtered,label,fromDate,toDate){
     const hi=Math.max(...lvls),lo=Math.min(...lvls);
     const ir=filtered.filter(r=>r.sugar>=70&&r.sugar<=140).length;
     const pct=Math.round(ir/filtered.length*100);
-
     doc.setFillColor(241,247,245);doc.roundedRect(13,sy,184,30,3,3,'F');
     doc.setTextColor(8,80,65);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('SUMMARY',18,sy+8);
     doc.setFont('helvetica','normal');doc.setTextColor(40,40,40);doc.setFontSize(9);
     doc.text('Total: '+filtered.length,18,sy+17);doc.text('Average: '+avg+' mg/dL',70,sy+17);
     doc.text('Highest: '+hi+' mg/dL',130,sy+17);doc.text('Lowest: '+lo+' mg/dL',170,sy+17);
     doc.setTextColor(30,100,60);doc.text('In-range (70-140): '+pct+'%   |   Out-of-range: '+(100-pct)+'%',18,sy+25);
-
     const rows=filtered.sort((a,b)=>new Date(b.dt||b.id)-new Date(a.dt||a.id)).map(r=>{
       const ins=getIns(r.sugar);
       const ud=ins.units===null?'None (treat low)':ins.units===0?'0 (no insulin)':ins.units+' Units';
       return[r.displayTime,r.sugar+' mg/dL',r.meal,getLabel(r.sugar),ud,r.notes||'—'];
     });
-
     doc.autoTable({
       startY:sy+36,
       head:[['Date & Time','Blood Sugar','Meal','Status','Insulin','Notes']],
@@ -871,8 +915,6 @@ function generatePDF(filtered,label,fromDate,toDate){
         }
       }
     });
-
-    // Insulin reference mini-table in PDF
     const finalY=doc.lastAutoTable.finalY+10;
     if(finalY+60<doc.internal.pageSize.height){
       doc.setFillColor(230,247,240);doc.roundedRect(13,finalY,184,8,2,2,'F');
@@ -882,14 +924,12 @@ function generatePDF(filtered,label,fromDate,toDate){
   }else{
     doc.setTextColor(100,100,100);doc.setFontSize(11);doc.text('No records found for the selected period.',15,sy+10);
   }
-
   const ph=doc.internal.pageSize.height;
   doc.setFontSize(7);doc.setTextColor(160,160,160);
   doc.text('GlucoTrack \u2014 For personal tracking only. Insulin doses are per prescribed sliding scale. Always consult your doctor.',15,ph-8);
   doc.save('glucotrack_report_'+fromDate.toISOString().slice(0,10)+'_to_'+toDate.toISOString().slice(0,10)+'.pdf');
 }
 
-// ── INIT ──────────────────────────────────────────────────
 (function(){
   const now=new Date();
   document.getElementById('f-date').value=now.toISOString().slice(0,10);
